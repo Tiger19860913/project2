@@ -1,0 +1,234 @@
+*{
+	margin: 0; 
+	padding: 0;
+}
+a{
+	text-decoration: none;
+}
+body{
+	font-size: 12px;
+	color: #828282;
+}
+
+.top, .body, .foot{
+	width: 1000px;
+	margin: 0 auto;
+}
+
+.topbg{
+	width: 100%;
+    border-bottom: 1px solid #E6E6E6;
+	background-color: #F9F9F9;
+}
+.top{
+	overflow: hidden;
+}
+.top .top_left{
+	width: 210px;
+	height: 29px;
+	line-height: 29px;
+	float: left;	
+}
+.top .top_middle{
+	width: 100px;
+	height: 29px;
+	line-height: 29px;
+	float: left;	
+}
+.top .top_middle a{
+	color: #828282;
+}
+.top .top_middle a:hover{
+	color: #EB3460;
+}
+.top .top_right{
+	width: 196px;
+	height: 29px;
+	float: right;
+	line-height: 29px;
+}
+.top .top_right a{
+	color: #828282
+}
+.top .top_right a:hover{
+	color: #FF6EA0;
+}
+.top .top_right b{
+	color: #FF6EA0;
+}
+.bodybg{
+	width: 100%;
+}
+.body{
+	border: 1px solid #E6E6E6;
+	margin-top: 10px;
+}
+.body .body_up{
+	width: 1000px;
+	height: 97px;
+	border-bottom: 2px solid black;
+	background: url(../subpages/images/car_top.jpg) no-repeat 0 0;
+}
+.body .body_down{
+	padding: 20px 23px;
+}
+.body .body_down .abo{
+	width: 950px;
+	height: 38px;
+	border: 1px solid #D4D4D4;
+	border-bottom: 0;
+	background: url(../subpages/images/scrol_bg2.jpg) repeat-x 0 0;
+	margin-bottom: 8px;
+}
+.body .body_down .abo span{
+	float: left;
+	height: 38px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #000000;
+	line-height: 38px;
+}
+.body .body_down .abo .num{
+	width: 174px;
+	margin-left: 45px;
+}
+.body .body_down .abo .goods{
+	width: 252px;
+}
+.body .body_down .abo .price{
+	width: 125px;
+}
+.body .body_down .abo .count{
+	width: 142px;
+}
+.body .body_down .abo .money{
+	width: 135px;
+}
+.body .body_down .abo .handle{
+	width: 62px;
+}
+.body .body_down .content1{
+	width: 950px;
+	height: 146px;
+	border: 1px solid #D4D4D4;
+	background: #F9F9F9 url(../subpages/images/car_04.png) no-repeat 220px 50px;
+	text-align: center;
+	line-height: 146px;
+}
+.body .body_down .content2{
+	width: 952px;
+	background-color: #F9F9F9;
+	display: none;	
+}
+.body .body_down .att{
+	width: 950px;
+	overflow: hidden;
+	margin-top: 40px;
+	border: 1px solid #D4D4D4;
+}
+.body .body_down .tit{
+	width: 950px;
+	height: 32px;	
+	background: url(../subpages/images/scrol_bg2.jpg) repeat-x 0 0;	
+	color: #000000;
+	line-height: 32px;
+}
+.body .body_down .att b{
+	font-size: 14px;
+	padding-left: 20px;
+}
+.body .body_down .att span{
+	float: right;
+	cursor: pointer;
+}
+.body .body_down .att span em{
+	float: right;
+	width: 23px;
+	height: 12px;
+	background: url(../subpages/images/zk_sq2.jpg) no-repeat -13px 0;
+	margin: 10px;
+}
+.footbg{
+	width: 100%;
+	background-color: #F7F7F7;
+	border-top: 1px solid #DEDEDE;
+	position: fixed;
+	bottom: 0;
+}
+.foot{
+	height: 54px;
+	padding-top: 18px;
+}
+.foot .foot_left{
+	width: 270px;
+	height: 40px;
+	float: left;
+	margin-left: 40px;
+}
+.foot .foot_left b{
+	float: left;
+	width: 10px;
+	height: 10px;
+	border: 1px solid #B2B2B2;
+	border-radius: 2px;
+	background-color: #E5E5E5;
+	text-align: center;
+	line-height: 10px;
+	margin-top: 1px;
+	cursor: pointer;
+}
+.foot .foot_left span{
+	float: left;
+	color: black;
+	margin-left: 20px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.foot .foot_left span:hover{
+	color: #F51972;
+}
+.foot .foot_left  .span1{
+	margin-left: 10px;
+}
+.foot .foot_right{
+	width: 360px;
+	height: 45px;
+	float: right;
+	margin-right: 175px;
+}
+.foot .foot_right .p1{
+	width: 230px;
+	height: 45px;
+	float: left;
+}
+.foot .foot_right .p1 span{
+	display: block;
+	color: black;
+	font-weight: bold;
+}
+.foot .foot_right .p1 .choose b{
+	color: #F51972;
+}
+.foot .foot_right .p1 .mon{
+	margin-top: 10px;
+}
+.foot .foot_right .p1 .mon b{
+	font-size: 14px;
+	color: #F51972;
+}
+.foot .foot_right .p2{
+	width: 120px;
+	height: 36px;
+	float: right;
+	font-size: 16px;
+	color: white;
+	font-weight: bold;
+	text-align: center;
+	line-height: 36px;
+	border-radius: 2px;
+	background-color: #F51972;
+	cursor: pointer;
+}
+.foot .foot_right .p2:hover{
+	background-color: #EB1A5B;
+}

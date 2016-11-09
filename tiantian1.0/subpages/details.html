@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>详情页面</title>
+		<link rel = "stylesheet" type = "text/css" href = "../css/public.css" />
+		<link rel = "stylesheet" type = "text/css" href = "../css/details.css" />
+		<script type="text/javascript" src="../jq/jquery-1.10.1.min.js"></script>
+		<script type="text/javascript" src="../js/tools.js"></script>
+					
+		<!----top：下拉、文字移动---->
+		<script type="text/javascript">
+			$(function(){				
+				//app----------------
+				$(".top_left").find(".a1").hover(function(){
+					hover1($(this), $(".top_app"));
+				},function(){
+					hover2($(this), $(".top_app"));
+				});							    
+				$(".top_app").hover(function(){
+					hover3($(this), $(".top_left").find(".a1"));
+				},function(){
+					hover4($(this), $(".top_left").find(".a1"));
+				});				
+				//mytiantian------client--------
+				$(".top_right").find(".li2").hover(function(){
+					hover1($(this), $(".top_mytt"));
+				},function(){
+					hover2($(this), $(".top_mytt"));
+				});				
+				$(".top_mytt").hover(function(){
+			    	hover3($(this), $(".top_right").find(".li2"));
+				},function(){
+					hover4($(this), $(".top_right").find(".li2"));
+				});				
+				$(".top_right").find(".li3").hover(function(){
+					hover1($(this), $(".top_client"));
+				},function(){
+					hover2($(this), $(".top_client"));
+				});
+				$(".top_client").hover(function(){
+					hover3($(this), $(".top_right").find(".li3"));
+				},function(){
+					hover4($(this), $(".top_right").find(".li3"));
+				});				
+				//文字移动----------------
+				var n = 300;
+				var textMove = setInterval(function(){
+					$(".inform").animate({left: -75}, 30000, "linear", function(){
+						$(".inform").css("left", "300px");
+					});					
+				}, 2000);			
+			})
+		</script>							
+		<!----head：特效------------->	
+		<script type="text/javascript">					
+			$(function(){				
+				//搜索框---------
+				var txt = $(".head").find(".txt").attr("value");
+				$(".head").find(".txt").focus(function(){
+					$(this).attr("value", "");
+				});
+				$(".head").find(".txt").blur(function(){
+					$(this).attr("value", txt);
+				});				
+				//购物车框--------
+				$(".head").find(".sc").hover(function(){
+					hover_a($(this), $(".head").find(".sc_hide"));
+				},function(){
+					hover_b($(this), $(".head").find(".sc_hide"));
+				 });
+				$(".head").find(".sc_hide").hover(function(){
+					hover_c($(this), $(".head").find(".sc"));
+				},function(){
+					hover_d($(this), $(".head").find(".sc"));
+				});							
+				//导航----------
+				$(".nav").find("a").eq(0).css("color","#000000")
+					.find("span").css({width:0,display:"none",left:25});
+				$(".nav").find("a").eq(2).css("color","red")
+					.find("span").css({width:80,display:"block",left:0});
+				for(var i = 0; i < $(".nav").find("a").size(); i++){
+					if(i==2){
+						continue;
+					}else{
+					$(".nav").find("a").eq(i).hover(function(){
+						$(this).css("color", "red");
+						$(this).find("span").css("display", "block")
+							.animate({width: $(this).parent().css("width"), left: 0});
+					},function(){
+						$(this).css("color", "black");
+						$(this).find("span").css("display", "none")
+							.animate({width: 0, left: $(this).parent().width() / 2});
+					});
+					}
+				}			
+				//导航--美妆商城--下拉--------
+				$.ajax({
+					url:"../json/shop_hide.json",
+					type:"GET",
+					success:function(res){
+						for(var i = 0; i < res.length; i++){
+							var oDl = $("<dl></dl>");
+							var oDt =$("<dt></dt>");
+							oDt.html(res[i].title);
+							oDl.append(oDt);
+							for(var j=0;j<res[i].list.length;j++){
+								var oDd=$("<dd></dd>");
+								var oA=$("<a></a>");
+								oA.attr("href",res[i].list[j].to);
+								oA.html(res[i].list[j].name);
+								oDd.append(oA);
+								oDl.append(oDd);
+							}
+							$(".shop_hide").find(".shop_up").append(oDl);
+						}	
+						$(".shop_up").find("dt").eq(0).css("background","url(images/city_nav.png) no-repeat -6px -7px");
+						$(".shop_up").find("dt").eq(1).css("background","url(images/city_nav.png) no-repeat -6px -38px");
+						$(".shop_up").find("dt").eq(2).css("background","url(images/city_nav.png) no-repeat -6px -69px");
+						$(".shop_up").find("dt").eq(3).css("background","url(images/city_nav.png) no-repeat -6px -102px");
+						$(".shop_up").find("dt").eq(4).css("background","url(images/city_nav.png) no-repeat -6px -135px");
+						$(".shop_up").find("dt").eq(5).css("background","url(images/city_nav.png) no-repeat -6px -170px");
+					}
+				});			
+				$.ajax({
+					url: "../json/shop_hide2.json",
+					typ:"GET",
+					success:function(res){
+						for(var i=0; i<res.length; i++){
+							var oDl=$("<dl></dl>");
+							var oDt=$("<dt></dt>");
+							oDt.html(res[i].title);
+							oDl.append(oDt);
+							for(var j=0; j<res[i].list.length; j++){
+								var oDd=$("<dd></dd>");
+								var oA=$("<a></a>");
+								oA.attr("href",res[i].list[j].to);
+								var oImg=$("<img/>");
+								oImg.attr("src",res[i].list[j].img);
+								var oSpan=$("<span></span>");
+								oSpan.html(res[i].list[j].name);
+								oA.append(oImg);
+								oA.append(oSpan);
+								oDd.append(oA);
+								oDl.append(oDd);
+							}
+							$(".shop_hide").find(".shop_down").append(oDl);
+						}
+						$(".shop_down").find("dt").eq(0).css("background","url(images/city_nav.png) no-repeat -4px -206px");
+					}
+				});			
+				$(".nav").find(".shop").hover(function(){
+					$(".shop_hide").slideDown(500);
+				},function(){
+					$(".shop_hide").css("display", "none");
+				});
+				$(".shop_hide").hover(function(){
+					$(this).css("display", "block");
+				},function(){
+					$(this).css("display", "none");
+				});			
+			})
+		</script>	
+		<!----product部分的效果----->
+		<script type="text/javascript">
+			$(function(){
+				//放大镜---------
+				var small_div = document.getElementById("small_d");
+				var big_div = document.getElementById("big_d");
+				var small_pic = document.getElementById("small_pic");
+				var big_pic = document.getElementById("big_pic");
+				var mag = document.getElementById("mag");
+				var scale;
+				small_div.onmouseover = function(){
+					mag.style.display = "block";
+					big_div.style.display = "block";
+					scale = big_pic.offsetWidth / small_div.offsetWidth;
+					mag.style.width = big_div.offsetWidth /scale + "px";
+					mag.style.height = big_div.offsetHeight / scale + "px";					
+				}				
+				small_div.onmousemove = function(evt){
+					var evt = evt || window.event;	
+					var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+			    	var left = evt.clientX - small_div.offsetLeft - mag.offsetWidth / 2;
+			    	var top = evt.clientY + scrollTop - small_div.offsetTop - mag.offsetHeight / 2;			    	
+			    	if(left < 0){
+			    		left = 0
+			    	}else if(left > small_div.offsetWidth - mag.offsetWidth){
+			    		left = small_div.offsetWidth - mag.offsetWidth;
+			    	}
+			    	if(top < 0){
+			    		top = 0
+			    	}else if(top > small_div.offsetHeight - mag.offsetHeight){
+			    		top = small_div.offsetHeight - mag.offsetHeight;
+			    	} 
+			    	mag.style.left = left + "px";
+			    	mag.style.top = top + "px";
+			    	big_pic.style.left = -mag.offsetLeft * scale + "px";
+			    	big_pic.style.top = -mag.offsetTop * scale + "px";
+				}
+				small_div.onmouseout=function(){
+					big_div.style.display="none";
+					mag.style.display="none";
+			 }			
+			//choose--------------
+			$(".choose").find(".pic").find("li").hover(function(){
+				$(this).css("border", "1px solid red").siblings().css("border","1px solid #E6E6E6");
+				$("#small_pic").attr("src", "images/small_pic"+$(this).index()+".jpg");
+				$("#big_pic").attr("src", "images/big_pic"+$(this).index()+".jpg");					
+			});			
+			var a=0;
+			var choose = setInterval(function(){
+				a = $(".pic").find("ul").position().left;
+			},30);									
+			$(".choose").find(".right").hover(function(){
+				if(a>=-64){
+					$(this).css("color", "red");
+				}else{
+					$(this).css("color", "#E6E6E6");
+				}
+				},function(){
+					if(a>=-64){
+					$(this).css("color", "black");		
+					}else{
+					$(this).css("color", "#E6E6E6");
+				}
+				});				
+				$(".choose").find(".left").hover(function(){
+				if(a<0&&a>=-128){
+					$(this).css("color", "red");
+				}else{
+					$(this).css("color", "#E6E6E6");
+				}
+				},function(){
+					if(a<0&&a>=-128){
+					$(this).css("color", "black");		
+					}else{
+					$(this).css("color", "#E6E6E6");
+				}
+				});				
+				$(".choose").find(".right").click(function(){
+					if(a>=0){
+						$(".choose").find(".left").css("color", "black");	
+						$(".pic").find("ul").animate({left:a-64});
+					}else if(a<0 && a>=-64){
+						$(this).css("color", "#E6E6E6");
+						$(".pic").find("ul").animate({left:a-64});
+					}
+				});				
+				$(".choose").find(".left").click(function(){
+					if(a<-64 && a>=-128){
+						$(this).css("color", "black");
+						$(".choose").find(".right").css("color", "black");	
+						$(".pic").find("ul").animate({left:a+64});				
+					}else if(a<0&&a>=-64){
+						$(this).css("color", "#E6E6E6");
+						$(".choose").find(".right").css("color", "black");	
+						$(".pic").find("ul").animate({left:a+64});
+					}
+				});		
+			})			
+		</script>
+		<!----套件详情部分的效果----->
+		<script type="text/javascript">
+			$(function(){							
+				var b=0;
+				var det = setInterval(function(){
+					b = $(".det_pic").find("ul").position().left;
+				},30);									
+				$(".introduce").find(".det_right").hover(function(){
+					if(b>=0){
+						$(this).css("color", "red");
+					}else{
+						$(this).css("color", "#CBCACA");
+					}
+					},function(){
+						if(b>=0){
+						$(this).css("color", "white");		
+						}else{
+						$(this).css("color", "#CBCACA");
+					}
+					});				
+					$(".introduce").find(".det_left").hover(function(){
+					if(b<0){
+						$(this).css("color", "red");
+					}else{
+						$(this).css("color", "#CBCACA");
+					}
+					},function(){
+						if(b<0){
+						$(this).css("color", "white");		
+						}else{
+						$(this).css("color", "#CBCACA");
+					}
+					});				
+					$(".introduce").find(".det_right").click(function(){
+						if(b>=0){
+							$(this).css("color", "#CBCACA").css("background","#DFDDDD");
+							$(".introduce").find(".det_left").css("color", "white").css("background","#939393");	
+							$(".det_pic").find("ul").animate({left:-240});				
+						}
+					});				
+					$(".introduce").find(".det_left").click(function(){
+						if(b<0&&b>=-240){
+							$(this).css("color", "#CBCACA").css("background","#DFDDDD");
+							$(".introduce").find(".det_right").css("color", "white").css("background","#939393");	
+							$(".det_pic").find("ul").animate({left:0});				
+						}
+					});	
+					})
+			</script>
+			
+	</head>
+	<body>
+		<div class = "topbg">
+			<div class = "top">
+				<div class = "top_left">
+					<a class="a1" href="#"><span>手机天天网</span></a>
+					<a class="a2" href = "#">公告：天天网防诈骗提醒</a>
+				</div>
+				<div class = "top_middle">
+					<p class="inform"><a href = "#">消费者告知书</a></p>
+				</div>
+				<div class = "top_right">
+					<ul>
+						<li class = "li1"><a href = "#">正品保证</a></li>
+						<li><a href = "#">登录</a></li>
+						<li><a href = "#">注册</a></li>
+						<li class = "li2"><a href = "#">我的天天<b></b></a></li>
+						<li class = "li3"><a href = "#">客户服务<b></b></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class = "headbg">
+			<div class = "head">
+				<div class="head_up">
+					<div class="log">
+						<a href="#"></a>
+					</div>
+					<div class="search">
+						<div class="search_up">
+							<input class="txt" type="text" value="雅诗兰黛" />
+							<a class="btn" href="#">搜索</a>
+							<a class="sc" href="#">								
+								 购物车(<span class="num">0</span>)
+								<b></b>
+							</a>
+						</div>
+						<div class="search_down">
+							<a href="#">满199减50</a>
+							<a href="#">面膜</a>
+							<a href="#">补水保湿</a>
+							<a href="#">营养保健</a>
+							<a href="#">国际轻奢</a>
+							<a class="buy" href="#">买了卖</a>
+							<a href="#">卡莉夫</a>
+						</div>
+					</div>
+				</div>
+				<div class="head_down">
+					<div class="nav">
+						<ul>
+							<li class="li1"><a href="../index.html">首页<span></span></a></li>
+							<li class="slash"></li>
+							<li class="li2"><a href="#">进口免税店<span></span></a></li>
+							<li class="slash"></li>
+							<li class="shop"><a href="#">美妆商城<span></span></a></li>
+							<li class="slash"></li>
+							<li><a href="#">品牌闪购<span></span></a></li>
+							<li class="slash"></li>
+							<li><a href="#">免费试用<span></span></a></li>
+						</ul>
+					</div>
+					<div class="right">
+						<ul>						
+							<li><a href="#">企业采购</a></li>
+							<li class="slash"></li>
+							<li><a href="#">品牌导航</a></li>
+							<li class="slash"></li>
+							<li><a href="#">积分商城</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="top_app">
+					<div class="system">
+						<ul>
+							<li class="iphone">
+								<a href="#">iPhone</a>
+							</li>
+							<li class="android">
+								<a href="#">Android</a>
+							</li>
+						</ul>
+					</div>
+					<div class="qr_code"></div>
+				</div>
+				<div class="top_mytt">
+					<p><a href="#">我的订单</a></p>
+					<p><a href="#">我的积分</a></p>
+				</div>
+				<div class="top_client">
+					<p><a href="#">帮助中心</a></p>
+					<p><a href="#">正品承诺</a></p>
+					<p><a href="#">售后服务</a></p>
+					<p><a href="#">购物流程</a></p>
+				</div>
+				<div class="sc_hide">
+					购物车里还没有商品，赶紧选购吧！
+				</div>
+			</div>
+		</div>
+		<div class="shop_hide">
+			<div class="shop_up"></div>
+			<div class="shop_down"></div>
+		</div>
+		<div class="bodybg">
+			<div class="position">
+				<a href="../index.html">首页</a>
+				<b>></b>
+				<a href="#">护肤</a>
+				<b>></b>
+				<a href="#">护肤套装</a>
+				<b>></b>
+				<a href="#">卡莉芙</a>
+				<b>></b>
+				<span>COLIF卡莉芙蜂萃蜂毒亮肤超值套装</span>
+			</div>
+			<div class="product">
+				<div class="product_left">
+					<div class="small_div" id="small_d">
+						<div id="mag"></div>
+						<img id="small_pic" src="images/small_pic0.jpg" />
+					</div>
+					<div class="choose">
+						<div class="left"><</div>
+						<div class="pic">
+							<ul>
+								<li><img src="images/choose_pic0.jpg"/></li>
+								<li><img src="images/choose_pic1.jpg"/></li>
+								<li><img src="images/choose_pic2.jpg"/></li>
+								<li><img src="images/choose_pic3.jpg"/></li>
+								<li><img src="images/choose_pic4.jpg"/></li>
+								<li><img src="images/choose_pic5.jpg"/></li>
+								<li><img src="images/choose_pic6.jpg"/></li>
+							</ul>
+						</div>
+						<div class="right">></div>
+					</div>
+					<div class="joy">
+						<em>分享到：</em>
+						<a class="a1" href="#"></a>
+						<a class="a2" href="#"></a>
+						<a class="a3" href="#"></a>
+						<a class="a4" href="#"></a>
+						<a class="a5" href="#"></a>
+						<a class="a6" href="#"></a>
+						<b></b>
+						<span>0</span>
+					</div>
+				</div>
+				<div class="product_right">
+					<div class="big_div" id="big_d">
+						<img id="big_pic" src="images/big_pic0.jpg" />
+					</div>
+					<div class="right_up">
+						<h3>COLIF卡莉芙蜂萃蜂毒亮肤超值套装</h3>
+						<ul>
+							<li>商品编号：A022194</li>
+							<li>市场价：￥527.00</li>
+							<li class="li3">会员价：￥<b>199.00</b> (3.78折)</li>
+							<li class="li4">服务：本产品由 <a href="../index.html">天天网</a> 发货，并提供售后服务</li>
+							<li class="li5">服务电话：<span>400-810-2211</span></li>
+							<li class="li6">
+								评价：
+								<b></b>								
+								<a href="#">(累计370条评论)</a>
+								<img src="images/lxkf.jpg" />							
+							</li>
+							<li class="li7">促销信息：本商品参加满<span>99.00</span>元送<span>COLIF卡莉芙玫瑰精油10ml</span>
+								<a>满<span>100.00</span>元另加<span>5.00</span>元即可兑换热销商品</a>
+							</li>
+						</ul>
+					</div>
+					<div class="right_middle">
+						<ul>
+							<li class="li1">
+								<span>购买数量：</span><b>-</b><input type="text" value="0" /><b>+</b>
+							</li>
+							<li class="li2">
+								<input type="button" />
+								<p>关注商品(<span>129</span>)</p>
+							</li>
+						</ul>
+						<img src= "images/qr0.png" />
+						<p class="con">
+							<span>扫描下载客户端</span>
+							<b>享手机特权</b>
+						</p>
+					</div>
+					<div class="right_down">
+						<ul>
+							<li class="li1"><span>正品保证</span></li>
+							<li class="li2"><span>60天退换货</span></li>
+							<li class="li3"><span>品牌授权</span></li>
+							<li class="li4"><span>正规发票</span></li>
+							<li class="li5"><span>千万口碑</span></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="content">
+				<div class="recommend">
+					<div class="similar">
+						<div class="title">
+							> 同类其他品牌
+						</div>
+						<div class="cont">
+							<a href="#">韩束</a>
+							<a href="#">婵真</a>
+							<a href="#">思亲肤</a>
+							<a href="#">菲诗小铺</a>
+							<a href="#">欧珀莱</a>
+							<a href="#">雅诗兰黛</a>
+							<a href="#">百雀羚</a>
+							<a href="#">兰蔻</a>
+							<a href="#">DODO</a>
+							<a href="#">可莱丝</a>
+							<a href="#">谜尚</a>
+							<a href="#">悦诗风吟</a>
+						</div>
+					</div>
+					<div class="seen">
+						<div class="title">
+							> 看过还看过
+						</div>
+						<div class="goods">
+							<ul>
+								<li>
+									<div class="up_d">
+										<a href="#">
+											<img src="images/seen1.jpg"/>
+										</a>
+									</div>
+									<div class="middle_d">
+										<span>￥149</span>
+										<b>￥119</b>
+									</div>
+									<div class="down_d">
+										<a href="#">
+											LOREAL欧莱雅男士冰爽控油两件套（劲能冰酷水分露50ml一瓶，能有效的）
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="up_d">
+										<a href="#">
+											<img src="images/seen2.jpg"/>
+										</a>
+									</div>
+									<div class="middle_d">
+										<span>￥189</span>
+										<b>￥159</b>
+									</div>
+									<div class="down_d">
+										<a href="#">
+											LOREAL欧莱雅男士冰爽控油两件套（劲能冰酷水分露50ml一瓶，能有效的）
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="up_d">
+										<a href="#">
+											<img src="images/seen3.jpg"/>
+										</a>
+									</div>
+									<div class="middle_d">
+										<span>￥145</span>
+										<b>￥115</b>
+									</div>
+									<div class="down_d">
+										<a href="#">
+											LOREAL欧莱雅男士冰爽控油两件套（劲能冰酷水分露50ml一瓶，能有效的）
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="up_d">
+										<a href="#">
+											<img src="images/seen4.jpg"/>
+										</a>
+									</div>
+									<div class="middle_d">
+										<span>￥228</span>
+										<b>￥188</b>
+									</div>
+									<div class="down_d">
+										<a href="#">
+											LOREAL欧莱雅男士冰爽控油两件套（劲能冰酷水分露50ml一瓶，能有效的）
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="up_d">
+										<a href="#">
+											<img src="images/seen5.jpg"/>
+										</a>
+									</div>
+									<div class="middle_d">
+										<span>￥199</span>
+										<b>￥179</b>
+									</div>
+									<div class="down_d">
+										<a href="#">
+											LOREAL欧莱雅男士冰爽控油两件套（劲能冰酷水分露50ml一瓶，能有效的）
+										</a>
+									</div>
+								</li>
+							</ul>
+							<a class="point"></a>
+						</div>
+					</div>
+					<div class="buy">
+						<div class="title">
+							> 买过还买过
+						</div>
+						<div class="goods">
+							<ul>
+								<li>
+									<div class="up_d">
+										<a href="#">
+											<img src="images/buy1.jpg"/>
+										</a>
+									</div>
+									<div class="middle_d">
+										<span>￥15600</span>
+										<b>￥10119</b>
+									</div>
+									<div class="down_d">
+										<a href="#">
+											GUCCI 古驰 女士棕色织物配皮条纹手提包 247205 FWCZG
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="up_d">
+										<a href="#">
+											<img src="images/buy2.jpg"/>
+										</a>
+									</div>
+									<div class="middle_d">
+										<span>￥18900</span>
+										<b>￥15900</b>
+									</div>
+									<div class="down_d">
+										<a href="#">
+											GUCCI 古驰 女士棕色织物配皮条纹手提包 247205 FWCZG
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="up_d">
+										<a href="#">
+											<img src="images/buy3.jpg"/>
+										</a>
+									</div>
+									<div class="middle_d">
+										<span>￥14500</span>
+										<b>￥11500</b>
+									</div>
+									<div class="down_d">
+										<a href="#">
+											GUCCI 古驰 女士棕色织物配皮条纹手提包 247205 FWCZG
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="up_d">
+										<a href="#">
+											<img src="images/buy4.jpg"/>
+										</a>
+									</div>
+									<div class="middle_d">
+										<span>￥22800</span>
+										<b>￥18800</b>
+									</div>
+									<div class="down_d">
+										<a href="#">
+											GUCCI 古驰 女士棕色织物配皮条纹手提包 247205 FWCZG
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="up_d">
+										<a href="#">
+											<img src="images/buy5.jpg"/>
+										</a>
+									</div>
+									<div class="middle_d">
+										<span>￥19900</span>
+										<b>￥17900</b>
+									</div>
+									<div class="down_d">
+										<a href="#">
+											GUCCI 古驰 女士棕色织物配皮条纹手提包 247205 FWCZG
+										</a>
+									</div>
+								</li>
+							</ul>
+							<a class="point"></a>
+						</div>
+					</div>
+					<div class="att">
+						<div class="title">
+							> 我最近查看的商品
+						</div>
+						<div class="goods">
+							<ul>
+								<li>
+									<div class="up_d">
+										<a href="#">
+											<img src="images/att1.jpg"/>
+										</a>
+									</div>
+									<div class="middle_d">
+										<span>106</span>
+										<b>￥328</b>
+									</div>
+									<div class="down_d">
+										<a href="#">
+											COLIF卡莉芙蜂萃蜂毒亮肤4件超值套装，值得拥有！
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="up_d">
+										<a href="#">
+											<img src="images/att2.jpg"/>
+										</a>
+									</div>
+									<div class="middle_d">
+										<span>269</span>
+										<b>￥108</b>
+									</div>
+									<div class="down_d">
+										<a href="#">
+											COLIF卡莉芙蜂萃蜂毒亮肤4件超值套装，值得拥有！
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="up_d">
+										<a href="#">
+											<img src="images/att3.jpg"/>
+										</a>
+									</div>
+									<div class="middle_d">
+										<span>87</span>
+										<b>￥208</b>
+									</div>
+									<div class="down_d">
+										<a href="#">
+											COLIF卡莉芙蜂萃蜂毒亮肤4件超值套装，值得拥有！
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="up_d">
+										<a href="#">
+											<img src="images/att4.jpg"/>
+										</a>
+									</div>
+									<div class="middle_d">
+										<span>102</span>
+										<b>￥169</b>
+									</div>
+									<div class="down_d">
+										<a href="#">
+											COLIF卡莉芙蜂萃蜂毒亮肤4件超值套装，值得拥有！
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="up_d">
+										<a href="#">
+											<img src="images/att5.jpg"/>
+										</a>
+									</div>
+									<div class="middle_d">
+										<span>211</span>
+										<b>￥135</b>
+									</div>
+									<div class="down_d">
+										<a href="#">
+											COLIF卡莉芙蜂萃蜂毒亮肤4件超值套装，值得拥有！
+										</a>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="introduce">
+					<img class="introduce_pic" src="images/introduce1.jpg" />
+					<img class="introduce_pic" src="images/introduce2.jpg" />
+					<div class="tzxq">套件详情</div>
+					<div class="say">此套件包含以下几件商品</div>
+					<div class="det">
+						<div class="det_left"><</div>
+						<div class="det_pic">
+							<ul>
+								<li>
+									<img src="images/det_pic1.jpg"/>
+									<div class="r">
+										<p>COLIF卡莉芙蜂萃蜂毒亮肤霜50g</p>
+										<span>￥54.9<em>￥132</em></span>
+										<a href="#">查看</a>
+									</div>
+								</li>		
+									<li>
+									<img src="images/det_pic2.jpg"/>
+									<div class="r">
+										<p>COLIF卡莉芙蜂萃蜂毒亮肤水120ml</p>
+										<span>￥56<em>￥110</em></span>
+										<a href="#">查看</a>
+									</div>
+								</li>
+									<li>
+									<img src="images/det_pic3.jpg"/>
+									<div class="r">
+										<p>COLIF卡莉芙蜂萃蜂毒亮肤面膜100g</p>
+										<span>￥54.9<em>￥132</em></span>
+										<a href="#">查看</a>
+									</div>
+								</li>
+									<li>
+									<img src="images/det_pic4.jpg"/>
+									<div class="r">
+										<p>COLIF卡莉芙蜂萃蜂毒亮肤原液50ml</p>
+										<span>￥76<em>￥149</em></span>
+										<a href="#">查看</a>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="det_right">></div>
+					</div>
+					<div class="inf">
+						<div class="til">
+							<p class="par">商品详情</p>
+							<p class="eva">商品评价</p>
+							<p class="pay">
+								<span>￥199.00<a href="#">立即购买</a></span>
+							</p>
+						</div>
+						<div class="til_down">
+							<a href="#">商品参数</a>
+							<a href="#">使用方法</a>
+							<a href="#">商品实拍</a>
+							<a href="#">品牌授权</a>
+						</div>
+					</div>
+					<div class="big1">
+						<div class="specs"></div>
+						<div class="specs_txt">
+							<p class="p1">
+								<b>商品名称</b>
+								<span>COLIF卡莉芙蜂萃蜂毒亮肤4件套装</span>
+							</p>
+							<p class="p1">
+								<b>商品名称</b>
+								<span>卡莉芙</span>
+							</p>
+							<p class="p1">
+								<b>适用人群</b>
+								<span>女性</span>
+							</p>
+							<p class="p1">
+								<b>适用肌肤类</b>
+								<span>任何</span>
+							</p>
+							<p class="p1">
+								<b>使用部位</b>
+								<span>面部</span>
+							</p>
+							<p class="p2">
+								<b>商品质地</b>
+								<span>喷雾</span>
+							</p>
+							<p class="p2">
+								<b>商品功效</b>
+								<span>保湿,补水,抗皱紧肤,提拉紧致,滋润,提亮肤色</span>
+							</p>
+							<p class="p2">
+								<b>商品包装</b>
+								<span>有外盒,有塑封</span>
+							</p>
+							<p class="p2">
+								<b>产地</b>
+								<span>中国大陆</span>
+							</p>
+							<p class="p2">
+								<b>保质期</b>
+								<span>3年</span>
+							</p>
+							<p class="p2">
+								<b>品牌规格</b>
+								<span>正常规格<span>
+							</p>
+							<p class="p12">
+								<b>温馨提示</b>
+								<span>因购买时间和批次不同，实际购买的商品可能与图片不一致，还请以收到的实物为准。</span>
+							</p>
+							<div class="pic">
+								<img src="images/specs.jpg" />
+							</div>
+						</div>
+						<div class="produ"></div>
+						<div class="produ_txt">
+							<img src="images/produ1.jpg" />
+							<img src="images/produ2.jpg" />
+							<img src="images/produ3.jpg" />
+							<img src="images/produ4.jpg" />
+							<img src="images/produ5.jpg" />
+							<img src="images/produ6.jpg" />
+							<img src="images/produ7.jpg" />
+							<img src="images/produ8.jpg" />
+							<img src="images/produ9.jpg" />
+							<img src="images/produ10.jpg" />
+							<img src="images/produ11.jpg" />
+							<img src="images/produ12.jpg" />
+							<img src="images/produ13.jpg" />
+						</div>
+						<div class="usage"></div>
+						<div class="usage_txt">
+							<img src="images/usage1.jpg" />
+						</div>
+						<div class="photos"></div>
+						<div class="photos_txt">
+							<img src="images/photos1.jpg" />
+							<img src="images/photos2.jpg" />
+							<img src="images/photos3.jpg" />
+							<img src="images/photos4.jpg" />
+							<img src="images/photos5.jpg" />
+						</div>
+						<div class="brand"></div>
+						<div class="brand_txt">
+							<img src="images/brand1.jpg" />
+						</div>
+					</div>
+					<div class="big2">
+						<div class="up">
+							<div class="prob">
+								<div class="prob_left">
+									<p class="p1">100%</p>
+									<p class="p2">好评率</p>
+								</div>
+								<div class="prob_right">
+									<p class="p1"><b></b>好评(100%)</p>
+									<p class="p2"><b></b>中评(0%)</p>
+									<p class="p3"><b></b>差评(0%)</p>
+								</div>
+							</div>
+							<div class="rule">
+								<p class="p1">积分规则：</p>
+								<p>发表评价即可获得积分！</p>
+								<p>只有购买过该商品的用户才可评价。<a href="#">详积分规则>></a></p>
+								<p>前5位评论用户：c**9，k**2，m**a，l**e，m**7</p>
+								<p><a class="a1" href="#">立即点评</a><a class="a2" href="#">已有370条评论</a></p>
+							</div>
+						</div>
+						<div class="com">
+							<div class="div_left">全部评论(370)</div>
+							<div class="div_right">
+								<p>
+									<span>好评(370)</span>
+									<span>中评(0)</span>
+									<span>差评(0)</span>
+								</p>
+							</div>
+						</div>
+						<div class="com_body">
+							<div class="user"></div>
+							<div class="com_foot">
+								<div class="com_foot1">
+									<a class="a1" href="#">我要评论</a>
+									<a class="a2" href="#">查看全部评论>></a>
+								</div>
+								<div class="com_foot2">
+									<p class="p1">上一页</p>
+									<p class = "p2">1</p>
+									<p>2</p>
+									<p>3</p>
+									<p>…</p>
+									<p>150</p>
+									<p class="p7">下一页</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class = "aboutbg">
+			<div class = "about">
+				<div class = "about_left">
+					<dl>
+						<dt>使用帮助</dt>
+						<dd><a href = "#">新用户注册</a></dd>
+						<dd><a href = "#">找回密码</a></dd>
+						<dd><a href = "#">会员级别</a></dd>
+						<dd><a href = "#">积分说明</a></dd>
+						<dd><a href = "#">常见问题</a></dd>
+					</dl>
+					<dl>
+						<dt>购物指南</dt>
+						<dd><a href = "#">正品货源采购</a></dd>
+						<dd><a href = "#">关于闪购</a></dd>
+						<dd><a href = "#">优惠券</a></dd>
+						<dd><a href = "#">积分计划</a></dd>
+					</dl>
+					<dl>
+						<dt>支付方式</dt>
+						<dd><a href = "#">在线支付</a></dd>
+						<dd><a href = "#">货到付款</a></dd>
+						<dd><a href = "#">余额支付</a></dd>
+					</dl>
+					<dl>
+						<dt>配送方式</dt>
+						<dd><a href = "#">配送范围及运费</a></dd>
+						<dd><a href = "#">配送信息跟踪</a></dd>
+						<dd><a href = "#">闪电发货</a></dd>
+					</dl>
+					<dl>
+						<dt>售后服务</dt>
+						<dd><a href = "#">正品承诺</a></dd>
+						<dd><a href = "#">退换货政策</a></dd>
+						<dd><a href = "#">退款说明</a></dd>
+						<dd><a href = "#">自助办理退换货</a></dd>
+					</dl>
+				</div>
+				<div class = "about_right">
+					<a class = "app_qr" href="#"><b></b>手机天天网</a>
+					<a class = "wx_qr" href="#"><b></b>天天微信网</a>
+				</div>
+			</div>
+		</div>
+		<div class="showbg">
+			<div class="show">
+				<dl class="dl1">
+					<a href="#">
+					<dt></dt>
+					<dd>
+						<b>正品保证</b>
+						官方授权 100%信赖
+					</dd>
+					</a>
+				</dl>
+				<dl class="dl2">
+					<a href="#">
+					<dt></dt>
+					<dd>
+						<b>无忧体验</b>
+						闪电发货 60天退货
+					</dd>
+					</a>
+				</dl>
+				<dl class="dl3">
+					<a href="#">
+					<dt></dt>
+					<dd>
+						<b>成功上市</b>
+						新三板代码834717
+					</dd>
+					</a>
+				</dl>
+				<dl class="dl4">
+					<a href="#">
+					<dt></dt>
+					<dd>
+						<b>明星入股</b>
+						代言人陈坤 出任股东
+					</dd>
+					</a>
+				</dl>
+				<dl class="dl5">
+					<a href="#">
+					<dt></dt>
+					<dd>
+						<b>全球好货</b>
+						全球精品 一站购齐
+					</dd>
+					</a>
+				</dl>
+				<dl class="dl6">
+					<a href="#">
+					<dt></dt>
+					<dd>
+						<b>千万会员</b>
+						千万用户 值得信任
+					</dd>
+					</a>
+				</dl>
+				<dl class="dl7">
+					<a href="#">
+					<dt></dt>
+					<dd>
+						<b>资本稳健</b>
+						软银赛富 鼎力支持
+					</dd>
+					</a>
+				</dl>
+			</div>
+		</div>
+		<div class="footbg">
+			<div class="foot">
+					<ul class="foot_up">
+						<li>
+							<a href="#">关于天天网</a>
+							<b>|</b>
+						</li>
+						<li>
+							<a href="#">天天网大事记</a>
+							<b>|</b>
+						</li>
+						<li>
+							<a href="#">品牌合作</a>
+							<b>|</b>
+						</li>
+						<li>
+							<a href="#">获奖殊荣</a>
+							<b>|</b>
+						</li>
+						<li>
+							<a href="#">招贤纳士</a>
+							<b>|</b>
+						</li>
+						<li>
+							<a href="#">联系我们</a>
+							<b>|</b>
+						</li>
+						<li>
+							<a href="#">手机天天网</a>
+							<b>|</b>
+						</li>
+						<li>
+							<a href="#">友情链接</a>
+						</li>
+					</ul>
+				<p class="foot_middle">
+					<span>
+						&copy;2016 北京天天美尚信息	科技股份有限公司
+						 Tiantian.com 保留一切权利。
+					</span>
+					<a href="#">
+						<img src="images/foot0.png" />
+						 京公安网备 11010802021981号
+					</a>
+				</p>
+				<p class="foot_down">
+					<img src="images/foot1.gif" />
+					<img src="images/foot2.gif" />
+					<img src="images/foot3.gif" />
+					<img class="pic4" src="images/foot4.png" />
+				</p>
+			</div>
+		</div>
+	</body>
+</html>
