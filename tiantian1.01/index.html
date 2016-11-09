@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset = "UTF-8" />
+		<title>天天网首页</title>
+		<link rel = "stylesheet" type = "text/css" href = "css/public.css" />
+		<link rel = "stylesheet" type = "text/css" href = "css/index.css" />
+		<script type="text/javascript" src="jq/jquery-1.10.1.min.js"></script>
+		<script type="text/javascript" src="jq/jquery.cookie.js"></script>
+		<script type="text/javascript" src="js/tools.js"></script>
+		
+		<!-----------------top：下拉、文字移动------------------->
+		<script type="text/javascript">
+			$(function(){				
+				//app----------------
+				$(".top_left").find(".a1").hover(function(){
+					hover1($(this), $(".top_app"));
+				},function(){
+					hover2($(this), $(".top_app"));
+				});							    
+				$(".top_app").hover(function(){
+					hover3($(this), $(".top_left").find(".a1"));
+				},function(){
+					hover4($(this), $(".top_left").find(".a1"));
+				});				
+				//mytiantian------client--------
+				$(".top_right").find(".li2").hover(function(){
+					hover1($(this), $(".top_mytt"));
+				},function(){
+					hover2($(this), $(".top_mytt"));
+				});				
+				$(".top_mytt").hover(function(){
+			    	hover3($(this), $(".top_right").find(".li2"));
+				},function(){
+					hover4($(this), $(".top_right").find(".li2"));
+				});				
+				$(".top_right").find(".li3").hover(function(){
+					hover1($(this), $(".top_client"));
+				},function(){
+					hover2($(this), $(".top_client"));
+				});
+				$(".top_client").hover(function(){
+					hover3($(this), $(".top_right").find(".li3"));
+				},function(){
+					hover4($(this), $(".top_right").find(".li3"));
+				});				
+				//文字移动----------------
+				var n = 300;
+				var textMove = setInterval(function(){
+					$(".inform").animate({left: -75}, 30000, "linear", function(){
+						$(".inform").css("left", "300px");
+					});					
+				}, 2000);			
+			})
+		</script>							
+		<!----------------------head：特效------------------------>	
+		<script type="text/javascript">					
+			$(function(){				
+				//搜索框---------
+				var txt = $(".head").find(".txt").attr("value");
+				$(".head").find(".txt").focus(function(){
+					$(this).attr("value", "");
+				});
+				$(".head").find(".txt").blur(function(){
+					$(this).attr("value", txt);
+				});				
+				//购物车框--------
+				$(".head").find(".sc").hover(function(){
+					hover_a($(this), $(".head").find(".sc_hide"));
+				},function(){
+					hover_b($(this), $(".head").find(".sc_hide"));
+				 });
+				$(".head").find(".sc_hide").hover(function(){
+					hover_c($(this), $(".head").find(".sc"));
+				},function(){
+					hover_d($(this), $(".head").find(".sc"));
+				});	
+			    
+				//导航----------
+				for(var i = 1; i < $(".nav").find("a").size(); i++){
+					$(".nav").find("a").eq(i).hover(function(){
+						$(this).find("span").css("display", "block")
+							.animate({width: $(this).parent().css("width"), left: 0});
+					},function(){
+						$(this).find("span").css("display", "none")
+							.animate({width: 0, left: $(this).parent().width() / 2});
+					});
+				}			
+				//导航--美妆商城--下拉--------
+				$.ajax({
+					url:"json/shop_hide.json",
+					type:"GET",
+					success:function(res){
+						for(var i = 0; i < res.length; i++){
+							var oDl = $("<dl></dl>");
+							var oDt =$("<dt></dt>");
+							oDt.html(res[i].title);
+							oDl.append(oDt);
+							for(var j=0;j<res[i].list.length;j++){
+								var oDd=$("<dd></dd>");
+								var oA=$("<a></a>");
+								oA.attr("href",res[i].list[j].to);
+								oA.html(res[i].list[j].name);
+								oDd.append(oA);
+								oDl.append(oDd);
+							}
+							$(".shop_hide").find(".shop_up").append(oDl);
+						}	
+						$(".shop_up").find("dt").eq(0).css("background","url(images/city_nav.png) no-repeat -6px -7px");
+						$(".shop_up").find("dt").eq(1).css("background","url(images/city_nav.png) no-repeat -6px -38px");
+						$(".shop_up").find("dt").eq(2).css("background","url(images/city_nav.png) no-repeat -6px -69px");
+						$(".shop_up").find("dt").eq(3).css("background","url(images/city_nav.png) no-repeat -6px -102px");
+						$(".shop_up").find("dt").eq(4).css("background","url(images/city_nav.png) no-repeat -6px -135px");
+						$(".shop_up").find("dt").eq(5).css("background","url(images/city_nav.png) no-repeat -6px -170px");
+					}
+				});			
+				$.ajax({
+					url: "json/shop_hide2.json",
+					typ:"GET",
+					success:function(res){
+						for(var i=0; i<res.length; i++){
+							var oDl=$("<dl></dl>");
+							var oDt=$("<dt></dt>");
+							oDt.html(res[i].title);
+							oDl.append(oDt);
+							for(var j=0; j<res[i].list.length; j++){
+								var oDd=$("<dd></dd>");
+								var oA=$("<a></a>");
+								oA.attr("href",res[i].list[j].to);
+								var oImg=$("<img/>");
+								oImg.attr("src",res[i].list[j].img);
+								var oSpan=$("<span></span>");
+								oSpan.html(res[i].list[j].name);
+								oA.append(oImg);
+								oA.append(oSpan);
+								oDd.append(oA);
+								oDl.append(oDd);
+							}
+							$(".shop_hide").find(".shop_down").append(oDl);
+						}
+						$(".shop_down").find("dt").eq(0).css("background","url(images/city_nav.png) no-repeat -4px -206px");
+					}
+				});			
+				$(".nav").find(".shop").hover(function(){
+					$(".shop_hide").slideDown(500);
+				},function(){
+					$(".shop_hide").css("display", "none");
+				});
+				$(".shop_hide").hover(function(){
+					$(this).css("display", "block");
+				},function(){
+					$(this).css("display", "none");
+				});			
+			})
+		</script>								
+		<!--------------------banner轮播图--------------- -------->
+		<script type="text/javascript">						
+			$(function(){
+				//banner-->轮播-----------
+				var i = 1;
+				var timer = setInterval(function(){
+					fn();
+				}, 4000);			
+				$(".button").find("span").hover(function(){				
+					clearInterval(timer);
+					$(this).css("background", "red").siblings("span").css("background", "#767995");
+					$(".banner").find("li").eq($(this).index()).css("display", "block")
+					  	.animate({opacity: 1}, 1500).siblings("li")
+					   	.css({display: "none", opacity: 0});
+				},
+				function(){
+					i = $(this).index();
+					timer = setInterval(function(){
+						fn();
+					}, 4000);
+				});					
+				function fn(){
+					$(".banner").find("li").eq(i).css("display", "block")
+						.animate({opacity: 1}, 1500).siblings("li")
+						.css({display: "none", opacity: 0});
+						$(".button").find("span").eq(i).css("background", "red")
+						.siblings("span").css("background", "#767995");
+					i++;
+					if(i >= $(".banner").find("li").length){
+						i = 0;
+					}
+				}
+			})
+		</script>					
+		<!----------------body：加载图片及特效------------------->
+		<script type="text/javascript">
+			$(function(){
+				//project_ul
+				$.ajax({
+					url:"json/project.json",
+					type:"GET",
+					success:function(res){
+						var html = "";
+						for(var i = 0; i < res.length; i++){
+							html += "<li><a href =" + res[i].to +">" + res[i].img + "</a></li>";
+						}
+						$(".project_ul").html(html);	
+						$(".project_ul").find("li").find("img").hover(function(){
+							$(this).animate({width: 560,height:280,top:-10,left:-10});
+						},
+						function(){
+							$(this).animate({width: 540,height:260,top:0,left:0});
+						});
+					}
+				});				
+				//grab_ul
+				$.ajax({
+					url:"json/grab.json",
+					type:"GET",
+					success:function(res){
+						var html = "";
+						for(var i = 0; i < res.length; i++){
+							html += "<li><a href =" + res[i].to +">" 
+								+ res[i].img +"<p class='p_up'>" + res[i].p_up+"</p>"
+								+"<p class='p_down'>" + res[i].p_down+"</p>" + "</a></li>";
+						}
+						$(".grab_ul").html(html);
+					}
+				});				
+				//style_ul
+				$.ajax({
+					url:"json/style.json",
+					type:"GET",
+					success:function(res){
+						var html = "";
+						for(var i = 0; i < res.length; i++){
+							html += "<li><a href =" + res[i].to +">" + res[i].img + "</a><div>" + res[i].exp + "</div></li>";
+						}
+						$(".style_ul").html(html);
+					}
+				});				
+				//brand_ul
+				$.ajax({
+					url:"json/brand.json",
+					type:"GET",
+					success:function(res){
+						var html = "";
+						for(var i = 0; i < res.length; i++){
+							html += "<li><a href =" + res[i].to +"><img src=" + res[i].img + "/></a><div><p class='p1'><a href =" + res[i].to +">" 
+								+ res[i].name +"</a></p><p class='p2'>" +res[i].title + "</p><p class='p3'><span class='span1'>"
+								+res[i].disc+"</span><span class='span2'>"+res[i].time+"</span></p></div></li>"
+						}
+						$(".brand_ul").html(html);
+					}
+				});			
+				//today_ul
+				$.ajax({
+					url:"json/today.json",
+					type:"GET",
+					success:function(res){
+						var html = "";
+						for(var i=0; i<res.length; i++){
+							html += "<li><a href="+res[i].to+"><div><img src="
+								+res[i].img+"/><p class='p1'><b>"+res[i].disc
+								+"</b>"+res[i].exp+"</p><p class='p2'><span class='span1'>"
+								+res[i].price+"<em>"+res[i].cost+"</em></span><span class='span2'>"
+								+res[i].num+"<em>"+res[i].buy+"</em><b>立即购买</b></span></p></div></a></li>"
+						}
+						$(".today_ul").html(html);
+					}
+				});			
+			})
+		</script>					
+		<!-----------------------侧边栏----------------------------->
+		<script type="text/javascript">
+			window.onload = function(){				
+				//left_side-------------
+				var left_side = document.getElementById("left_side");
+				left_side.style.top = (document.documentElement.clientHeight - left_side.offsetHeight) / 2+"px";
+				left_side.style.left= (document.documentElement.clientWidth - 1096) / 2 - left_side.offsetWidth+"px";	
+				left_side.style.display = "none";																	
+				$("#left_side").find("a").hover(function(){
+					clearInterval(t);
+					$(this).css({"background-color": "black", "color": "white","background-image": "url(images/left_side2.png)"});
+				},function(){			
+					$(this).css({"background-color": "", "color": "black","background-image": "url(images/left_side.png)"});
+					t = setInterval(function(){
+						tt();
+					},30);
+				});									
+				var t = setInterval(function(){
+					tt();
+				},30);							    	
+			    
+			    //right_side-------------
+			    var right_side = document.getElementById("right_side");
+				right_side.style.height = document.documentElement.clientHeight + "px";							
+				$("#right_side").find(".p8").click(function(){
+					clearInterval(back);
+					var n=$(window).scrollTop();
+					var back = setInterval(function(){
+						$(window).scrollTop(n);						
+						if(n<= 0){
+							clearInterval(back);
+						}
+						n-=700;
+					},10);
+				});			
+			}
+		</script>
+	</head>
+	<body>
+		<div class = "topbg">
+			<div class = "top">
+				<div class = "top_left">
+					<a class="a1" href="#"><span>手机天天网</span></a>
+					<a class="a2" href = "#">公告：天天网防诈骗提醒</a>
+				</div>
+				<div class = "top_middle">
+					<p class="inform"><a href = "#">消费者告知书</a></p>
+				</div>
+				<div class = "top_right">
+					<ul>
+						<li class = "li1"><a href = "#">正品保证</a></li>
+						<li><a href = "#">登录</a></li>
+						<li><a href = "#">注册</a></li>
+						<li class = "li2"><a href = "#">我的天天<b></b></a></li>
+						<li class = "li3"><a href = "#">客户服务<b></b></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class = "headbg">
+			<div class = "head">
+				<div class="head_up">
+					<div class="log">
+						<a href="#"></a>
+					</div>
+					<div class="search">
+						<div class="search_up">
+							<input class="txt" type="text" value="雅诗兰黛" />
+							<a class="btn" href="#">搜索</a>
+							<a class="sc" href="#">								
+								 购物车(<span class="num">0</span>)
+								<b></b>
+							</a>
+						</div>
+						<div class="search_down">
+							<a href="#">满199减50</a>
+							<a href="#">面膜</a>
+							<a href="#">补水保湿</a>
+							<a href="#">营养保健</a>
+							<a href="#">国际轻奢</a>
+							<a class="buy" href="#">买了卖</a>
+							<a href="#">卡莉夫</a>
+						</div>
+					</div>
+				</div>
+				<div class="head_down">
+					<div class="nav">
+						<ul>
+							<li class="li1"><a href="#">首页<span></span></a></li>
+							<li class="slash"></li>
+							<li class="li2"><a href="#">进口免税店<span></span></a></li>
+							<li class="slash"></li>
+							<li class="shop"><a href="#">美妆商城<span></span></a></li>
+							<li class="slash"></li>
+							<li><a href="#">品牌闪购<span></span></a></li>
+							<li class="slash"></li>
+							<li><a href="#">免费试用<span></span></a></li>
+						</ul>
+					</div>
+					<div class="right">
+						<ul>						
+							<li><a href="#">企业采购</a></li>
+							<li class="slash"></li>
+							<li><a href="#">品牌导航</a></li>
+							<li class="slash"></li>
+							<li><a href="#">积分商城</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="top_app">
+					<div class="system">
+						<ul>
+							<li class="iphone">
+								<a href="#">iPhone</a>
+							</li>
+							<li class="android">
+								<a href="#">Android</a>
+							</li>
+						</ul>
+					</div>
+					<div class="qr_code"></div>
+				</div>
+				<div class="top_mytt">
+					<p><a href="#">我的订单</a></p>
+					<p><a href="#">我的积分</a></p>
+				</div>
+				<div class="top_client">
+					<p><a href="#">帮助中心</a></p>
+					<p><a href="#">正品承诺</a></p>
+					<p><a href="#">售后服务</a></p>
+					<p><a href="#">购物流程</a></p>
+				</div>
+				<div class="sc_hide">
+					购物车里还没有商品，赶紧选购吧！
+				</div>
+			</div>
+		</div>
+		<div class="shop_hide">
+			<div class="shop_up"></div>
+			<div class="shop_down"></div>
+		</div>
+		<div class="banner">
+			<ul>
+				<li class = "li1"><a href="#"></a></li>
+				<li class = "li2"><a href="#"></a></li>
+				<li class = "li3"><a href="#"></a></li>
+				<li class = "li4"><a href="#"></a></li>
+				<li class = "li5"><a href="#"></a></li>
+				<li class = "li6"><a href="#"></a></li>
+				<li class = "li7"><a href="#"></a></li>
+			</ul>
+			<div class="button">
+				<span class="first_span"></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+		</div>	
+		<div class="tellbg">
+			<div class="tell">
+				<div class=" flash">
+					<a href="#">
+					<p>正品化妆品显示闪购</p>
+					<span>100%正品闪购 值得信赖</span>
+					</a>
+				</div>
+				<div class=" stock">
+					<a href="#">
+					<p>中国美妆电商第一股</p>
+					<span>股票代码：834717</span>
+					</a>
+				</div>
+				<div class=" sixty">
+					<a href="#">
+					<p>99元包邮 60天退货</p>
+					<span>无忧购物体验</span>
+					</a>
+				</div>
+				<div class=" insure">
+					<a href="#">
+					<p>产品质量保证保险</p>
+					<span>信达财险承保 品质保证</span>
+					</a>
+				</div>				
+			</div>
+		</div>
+		<div class="bodybg">
+			<div class="body" id="body_id">								
+				<div class="header" id="part1">
+					<span class="big">专题<span>精选</span></span>
+					<span class="small">每日10点上新</span>					
+				</div>				
+				<div class="project">
+					<ul class = "project_ul"></ul>
+				</div>
+				<div class="header" id="part2">
+					<span class="big">1小时<span>抢购</span></span>
+					<span class="small">每小时上新 秒杀价限时抢</span>
+				</div>
+				<div class="grab">
+					<ul class="grab_ul"></ul>
+				</div>
+				<div class="header" id="part3">
+					<span class="big">今日<span>爆款</span></span>
+					<span class="small">每日10点上新</span>
+				</div>
+				<div class="style">
+					<ul class="style_ul"></ul>
+				</div>
+				<div class="brandbg">
+				<div class="header" id = "part4">
+					<span class="big">品牌<span>闪购</span></span>
+					<span class="small">每日10点 准时开抢</span>
+				</div>
+				<div class="brand">
+					<ul class="brand_ul"></ul>
+				</div>
+				</div>
+				<div class="header" id="part5">
+					<span class="big">今日<span>闪购</span></span>
+					<span class="small">爆款限量抢</span>
+				</div>
+				<div class="today">
+					<ul class="today_ul"></ul>
+				</div>					
+			</div>
+		</div>
+		<div class = "aboutbg">
+			<div class = "about">
+				<div class = "about_left">
+					<dl>
+						<dt>使用帮助</dt>
+						<dd><a href = "#">新用户注册</a></dd>
+						<dd><a href = "#">找回密码</a></dd>
+						<dd><a href = "#">会员级别</a></dd>
+						<dd><a href = "#">积分说明</a></dd>
+						<dd><a href = "#">常见问题</a></dd>
+					</dl>
+					<dl>
+						<dt>购物指南</dt>
+						<dd><a href = "#">正品货源采购</a></dd>
+						<dd><a href = "#">关于闪购</a></dd>
+						<dd><a href = "#">优惠券</a></dd>
+						<dd><a href = "#">积分计划</a></dd>
+					</dl>
+					<dl>
+						<dt>支付方式</dt>
+						<dd><a href = "#">在线支付</a></dd>
+						<dd><a href = "#">货到付款</a></dd>
+						<dd><a href = "#">余额支付</a></dd>
+					</dl>
+					<dl>
+						<dt>配送方式</dt>
+						<dd><a href = "#">配送范围及运费</a></dd>
+						<dd><a href = "#">配送信息跟踪</a></dd>
+						<dd><a href = "#">闪电发货</a></dd>
+					</dl>
+					<dl>
+						<dt>售后服务</dt>
+						<dd><a href = "#">正品承诺</a></dd>
+						<dd><a href = "#">退换货政策</a></dd>
+						<dd><a href = "#">退款说明</a></dd>
+						<dd><a href = "#">自助办理退换货</a></dd>
+					</dl>
+				</div>
+				<div class = "about_right">
+					<a class = "app_qr" href="#"><b></b>手机天天网</a>
+					<a class = "wx_qr" href="#"><b></b>天天微信网</a>
+				</div>
+			</div>
+		</div>
+		<div class="showbg">
+			<div class="show">
+				<dl class="dl1">
+					<a href="#">
+					<dt></dt>
+					<dd>
+						<b>正品保证</b>
+						官方授权 100%信赖
+					</dd>
+					</a>
+				</dl>
+				<dl class="dl2">
+					<a href="#">
+					<dt></dt>
+					<dd>
+						<b>无忧体验</b>
+						闪电发货 60天退货
+					</dd>
+					</a>
+				</dl>
+				<dl class="dl3">
+					<a href="#">
+					<dt></dt>
+					<dd>
+						<b>成功上市</b>
+						新三板代码834717
+					</dd>
+					</a>
+				</dl>
+				<dl class="dl4">
+					<a href="#">
+					<dt></dt>
+					<dd>
+						<b>明星入股</b>
+						代言人陈坤 出任股东
+					</dd>
+					</a>
+				</dl>
+				<dl class="dl5">
+					<a href="#">
+					<dt></dt>
+					<dd>
+						<b>全球好货</b>
+						全球精品 一站购齐
+					</dd>
+					</a>
+				</dl>
+				<dl class="dl6">
+					<a href="#">
+					<dt></dt>
+					<dd>
+						<b>千万会员</b>
+						千万用户 值得信任
+					</dd>
+					</a>
+				</dl>
+				<dl class="dl7">
+					<a href="#">
+					<dt></dt>
+					<dd>
+						<b>资本稳健</b>
+						软银赛富 鼎力支持
+					</dd>
+					</a>
+				</dl>
+			</div>
+		</div>
+		<div class="footbg">
+			<div class="foot">
+					<ul class="foot_up">
+						<li>
+							<a href="#">关于天天网</a>
+							<b>|</b>
+						</li>
+						<li>
+							<a href="#">天天网大事记</a>
+							<b>|</b>
+						</li>
+						<li>
+							<a href="#">品牌合作</a>
+							<b>|</b>
+						</li>
+						<li>
+							<a href="#">获奖殊荣</a>
+							<b>|</b>
+						</li>
+						<li>
+							<a href="#">招贤纳士</a>
+							<b>|</b>
+						</li>
+						<li>
+							<a href="#">联系我们</a>
+							<b>|</b>
+						</li>
+						<li>
+							<a href="#">手机天天网</a>
+							<b>|</b>
+						</li>
+						<li>
+							<a href="#">友情链接</a>
+						</li>
+					</ul>
+				<p class="foot_middle">
+					<span>
+						&copy;2016 北京天天美尚信息	科技股份有限公司
+						 Tiantian.com 保留一切权利。
+					</span>
+					<a href="#">
+						<img src="images/foot0.png" />
+						 京公安网备 11010802021981号
+					</a>
+				</p>
+				<p class="foot_down">
+					<img src="images/foot1.gif" />
+					<img src="images/foot2.gif" />
+					<img src="images/foot3.gif" />
+					<img class="pic4" src="images/foot4.png" />
+				</p>
+			</div>
+		</div>
+		<div id="left_side">
+			<a class="a1" href="#part1">专题精选</a>
+			<a class="a2" href="#part2">1小时闪购</a>
+			<a class="a3" href="#part3">今日爆款</a>
+			<a class="a4" href="#part4">品牌闪购</a>
+			<a class="a5" href="#part5">今日闪购</a>
+		</div>
+		<div id="right_side">
+			<p class="p1"><span></span></p>
+			<p class="p2"><span></span><b>购物车</b><em>0</em></p>
+			<p class="p3"><span></span></p>
+			<p class="p4"><span></span></p>
+			<p class="p5"><span></span></p>
+			<p class="p6"><span></span></p>
+			<p class="p7"><span></span></p>
+			<p class="p8"><span></span></p>
+		</div>
+	</body>
+</html>
